@@ -1,0 +1,66 @@
+/* -------------------------------------------------------
+   GLOBAL OVERRIDES
+------------------------------------------------------- */
+
+/* Custom scrollbar */
+::-webkit-scrollbar          { width: 6px; }
+::-webkit-scrollbar-track    { background: #0a0f1e; }
+::-webkit-scrollbar-thumb    { background: #06b6d4; border-radius: 3px; }
+
+/* Navbar backdrop blur */
+.navbar-blur {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* -------------------------------------------------------
+   SCROLL-REVEAL ANIMATION
+   Elements start invisible; JS adds .visible when they
+   enter the viewport, triggering the CSS transition.
+------------------------------------------------------- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children of a container */
+.fade-in:nth-child(2)  { transition-delay: 0.07s; }
+.fade-in:nth-child(3)  { transition-delay: 0.14s; }
+.fade-in:nth-child(4)  { transition-delay: 0.21s; }
+.fade-in:nth-child(5)  { transition-delay: 0.28s; }
+.fade-in:nth-child(6)  { transition-delay: 0.35s; }
+
+/* -------------------------------------------------------
+   PROJECT CARD IMAGE – subtle edge vignette (top/left/right)
+   Gentle darkening to soften the screenshot → dark border
+   transition. Bottom left open (natural fade into card body).
+   Hover zoom-overlay stays above via z-index: 1.
+------------------------------------------------------- */
+.img-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow:
+    inset 0   6px 12px -4px rgba(0, 0, 0, 0.38),  /* top   */
+    inset  7px 0 12px -4px rgba(0, 0, 0, 0.18),   /* left  */
+    inset -7px 0 12px -4px rgba(0, 0, 0, 0.18);   /* right */
+  pointer-events: none;
+}
+/* Keep the hover zoom-overlay above the ::after shadow */
+.img-frame > div { z-index: 1; }
+
+
+/* -------------------------------------------------------
+   HERO BACKGROUND GRID (subtle tech decoration)
+------------------------------------------------------- */
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(6,182,212,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6,182,212,.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
