@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/custom.css" />
+    <title>Kovářík Dušan</title>
+  </head>
+  <body>
+    <div class="container-fluid px-0">
+      <!-- Hero sekce -->
+      <header>
+        <div class="container-fluid navbar-background">
+          <!-- Navigace -->
+          <div class="row">
+            <div class="col">
+              <div class="container-fluid">
+                <nav class="navbar navbar-expand-md navbar-dark">
+                  <div class="container-fluid">
+                    <a class="navbar-brand link-warning fw-bold" href="#"
+                      >OvládniMatiku.cz</a
+                    >
+                    <button
+                      class="navbar-toggler"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarNav"
+                      aria-controls="navbarNav"
+                      aria-expanded="false"
+                      aria-label="Toggle navigation"
+                    >
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                      <ul class="navbar-nav">
+                        <li class="nav-item">
+                          <a
+                            class="nav-link link-warning active fw-bold"
+                            aria-current="page"
+                            href="#o-nas"
+                            >O nás</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link link-warning fw-bold"
+                            href="#sluzby"
+                            >Služby</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link link-warning fw-bold" href="#cenik"
+                            >Ceník</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link link-warning fw-bold"
+                            href="#kontakty"
+                            >Kontakty</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+          <!-- ./ Navigace -->
+          <!-- Střed hero sekce -->
+          <div class="container">
+            <div class="row hero-center">
+              <div
+                class="col hero-section d-flex justify-content-center align-items-center text-center"
+              >
+                <div>
+                  <h1 class="text-warning h1">OvládniMatiku.cz</h1>
+                  <p class="text-warning lead fw-bold">
+                    Učíme matematiku srozumitelně a lidsky
+                  </p>
+                  <!-- Button trigger modal -->
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#cookiesModal"
+                  >
+                    Používání cookies
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /. Střed hero sekce -->
+        </div>
+        <!-- Modální okno -->
+        <div
+          class="modal fade"
+          id="cookiesModal"
+          tabindex="-1"
+          aria-labelledby="cookiesModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="cookiesModalLabel">
+                  Používání cookies
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">Na tomto webu používáme cookies.</div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Souhlasím
+                </button>
+                <button type="button" class="btn btn-primary">
+                  Learn More
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-bag-plus"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5"
+                    />
+                    <path
+                      d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modální okno -->
+      </header>
+      <!-- ./ Hero sekce -->
+      <main>
+        <!-- O firmě -->
+        <div id="o-nas" class="container my-5">
+          <div class="row">
+            <div class="col-md-6">
+              <div id="carouselONas" class="carousel slide">
+                <div class="carousel-indicators">
+                  <button
+                    type="button"
+                    data-bs-target="#carouselONas"
+                    data-bs-slide-to="0"
+                    class="active"
+                    aria-current="true"
+                    aria-label="Slide 1"
+                  ></button>
+                  <button
+                    type="button"
+                    data-bs-target="#carouselONas"
+                    data-bs-slide-to="1"
+                    aria-label="Slide 2"
+                  ></button>
+                  <button
+                    type="button"
+                    data-bs-target="#carouselONas"
+                    data-bs-slide-to="2"
+                    aria-label="Slide 3"
+                  ></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img
+                      src="images/doucovani-osobni.jpg"
+                      class="d-block w-100"
+                      alt="..."
+                    />
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Osobní doučování</h5>
+                      <p>Lektor se Vám bude věnovat individuálně.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img
+                      src="images/doucovani-online.jpg"
+                      class="d-block w-100"
+                      alt="..."
+                    />
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Doučování online</h5>
+                      <p>Nemusíte nikam docházet, pokud nechcete.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img
+                      src="images/uspesna-studentka.jpg"
+                      class="d-block w-100"
+                      alt="..."
+                    />
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Váš úspěch</h5>
+                      <p>S námi zvládnete každou zkoušku</p>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#carouselONas"
+                  data-bs-slide="prev"
+                >
+                  <span
+                    class="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button
+                  class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#carouselONas"
+                  data-bs-slide="next"
+                >
+                  <span
+                    class="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h2>O nás</h2>
+              <p>
+                Nabízíme individuální doučování matematiky všech úrovní -
+                <span class="highlight-text"
+                  >základní školy, střední školy a vysoké školy.</span
+                >
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                atque maiores pariatur nulla, quasi rem repellat provident est
+                illo cumque iusto? Odio libero, sunt sequi debitis quisquam
+                tempore dolorem eos!
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil
+                aut, adipisci officia sunt sit inventore!
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- ./ O firmě -->
+        <!-- Čím se firma zabývá -->
+        <div id="sluzby" class="container my-5">
+          <div class="row">
+            <div class="col">
+              <h2>Jaké služby nabízíme</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <img
+                class="img-fluid d-none d-md-block"
+                src="images/pracovni-stul.jpg"
+                alt="Pracovní stůl"
+              />
+              <p>
+                Nabízíme osobní doučování, kdy se jeden lektor věnuje jednomu
+                studentovi.
+              </p>
+            </div>
+            <div class="col-md-4">
+              <img
+                class="img-fluid d-none d-md-block"
+                src="images/grafický tablet.jpg"
+                alt="Grafický tablet"
+              />
+              <p>
+                Můžete ale též využít online doučování, kdy lektor kreslí na
+                grafický tablet a sdílí s Vámi obrazovku.
+              </p>
+            </div>
+            <div class="col-md-4">
+              <img
+                class="img-fluid d-none d-md-block"
+                src="images/whiteboard.jpg"
+                alt="Tabule"
+              />
+              <p>
+                V případě potřeby během online doučování lektor kreslí a píše na
+                tabuli, kterou snímá kamera.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Čím se firma zabývá -->
+        <!-- Ceník -->
+        <div id="cenik" class="container my-5">
+          <div class="row">
+            <div class="col">
+              <h2>Ceník služeb</h2>
+              <table class="table table-primary table-striped">
+                <thead>
+                  <tr class="table-dark">
+                    <th class="ps-3">Počet hodin</th>
+                    <th class="text-center">Osobní doučování</th>
+                    <th class="text-center">Doučování online</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ps-3">1 hodina</td>
+                    <td class="text-center">800 Kč</td>
+                    <td class="text-center">800 Kč</td>
+                  </tr>
+                  <tr>
+                    <td class="ps-3">5 hodin</td>
+                    <td class="text-center">3 700 Kč</td>
+                    <td class="text-center">3 700 Kč</td>
+                  </tr>
+                  <tr>
+                    <td class="ps-3">10 hodin</td>
+                    <td class="text-center">6 900 Kč</td>
+                    <td class="text-center">6 900 Kč</td>
+                  </tr>
+                  <tr>
+                    <td class="ps-3">20 hodin</td>
+                    <td class="text-center">12 900 Kč</td>
+                    <td class="text-center">12 900 Kč</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- ./ Ceník -->
+        <!-- Kontakty -->
+        <div id="kontakty" class="container my-5">
+          <div class="row">
+            <div class="col">
+              <h2>Kontakty</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <p class="my-0 fw-bold">Adresa:</p>
+              <address>
+                Jánská 2<br />
+                602 00 Brno-střed
+              </address>
+              <p class="my-2">
+                <i class="fa-solid fa-phone"></i> Tel: +420 111 333 555
+              </p>
+              <p class="my-2">
+                <i class="fa-solid fa-envelope"></i> E-mail:
+                <a href="mailto:kontakt@ovladnimatiku.cz"
+                  >kontakt@ovladnimatiku.cz</a
+                >
+              </p>
+            </div>
+            <div class="col-md-6">
+              <div class="map-responsive">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2607.346411977926!2d16.609069526468083!3d49.19398771817582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471294572f78913d%3A0x9125f6482e9a4af8!2zSsOhbnNrw6EgMiwgNjAyIDAwIEJybm8tc3TFmWVk!5e0!3m2!1scs!2scz!4v1753093874627!5m2!1scs!2scz"
+                  style="border: 0"
+                  width="600"
+                  height="450"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <h3>Napište nám</h3>
+              <form action="">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Váš e-mail:</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="message" class="form-label">Vaše zpráva:</label>
+                  <textarea
+                    class="form-control"
+                    id="message"
+                    rows="3"
+                  ></textarea>
+                </div>
+                <button type="button" class="btn btn-primary">Odeslat</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- ./ Kontakty -->
+      </main>
+      <footer>
+        <div class="container-fluid">
+          <div class="row bg-dark py-5">
+            <div class="col">
+              <p class="text-center text-white lead">
+                &copy; 2025 Dušan Kovářík
+              </p>
+            </div>
+          </div>
+          <div class="row bg-black py-3">
+            <div class="col text-center">
+              <ul class="list-inline">
+                <li class="nav-item list-inline-item">
+                  <a
+                    class="nav-link link-warning active"
+                    aria-current="page"
+                    href="#o-nas"
+                    >O nás</a
+                  >
+                </li>
+                <li class="nav-item list-inline-item">
+                  <a class="nav-link link-warning" href="#sluzby">Služby</a>
+                </li>
+                <li class="nav-item list-inline-item">
+                  <a class="nav-link link-warning" href="#cenik">Ceník</a>
+                </li>
+                <li class="nav-item list-inline-item">
+                  <a class="nav-link link-warning" href="#kontakty">Kontakty</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+  background-color: lightgoldenrodyellow;
+}
+
+.wrap {
+  margin: 1.5rem;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group-label {
+  margin-bottom: 0.5rem;
+}
+
+form input {
+  padding: 0.25rem;
+}
+
+form select {
+  padding: 0.25rem;
+}
+
+form input[type='number'] {
+  font-family: inherit;
+  width: 7rem;
+}
+
+form input[type='button'] {
+  background-color: rgb(29, 110, 216);
+  color: #fff;
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+}

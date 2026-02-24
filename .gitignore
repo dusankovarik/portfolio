@@ -1,0 +1,13 @@
+# Images
+images/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+
+# Temporary files
+*.tmp
+*.log

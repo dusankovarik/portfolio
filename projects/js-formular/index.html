@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Kovářík - formulář v JS</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Objednávka krmiva</h1>
+      </header>
+      <form name="form1">
+        <div class="form-group">
+          <label for="kind">Výběr krmiva:</label>
+          <select id="kind" name="kind">
+            <option value="dog">Psí žrádlo 150 Kč/kg</option>
+            <option value="cat">Kočičí žrádlo 120 Kč/kg</option>
+            <option value="fish">Žrádlo pro rybičky 50 Kč/kg</option>
+            <option value="tyger">Žrádlo pro tygra 800 Kč/kg</option>
+          </select>
+          <label for="quantity">Množství (kg):</label>
+          <input type="number" id="quantity" name="quantity" />
+          <label for="price1">Základní cena:</label>
+          <input type="text" id="price1" name="price1" />
+        </div>
+        <div class="form-group">
+          <p class="form-group-label">Výběr kvality:</p>
+          <div>
+            <label for="organic">
+              <input
+                type="checkbox"
+                id="organic"
+                class="quality"
+                name="organic"
+              />
+              Bio kvalita (+30 % ze základní ceny)
+            </label>
+          </div>
+          <div>
+            <label for="premium">
+              <input
+                type="checkbox"
+                id="premium"
+                class="quality"
+                name="premium"
+              />
+              Extra premium kvalita (+50 % ze základní ceny)
+            </label>
+          </div>
+          <div>
+            <label for="poor">
+              <input type="checkbox" id="poor" class="quality" name="poor" />
+              Extra nekvalita pro chudé (- 15 % ze základní ceny)
+            </label>
+          </div>
+          <div>
+            <label for="gift">
+              <input type="checkbox" id="gift" class="quality" name="gift" />
+              Dárkové balení (+ 500 Kč)
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <p class="form-group-label">Výběr typu dopravy:</p>
+          <div>
+            <label for="personal">
+              <input
+                type="radio"
+                id="personal"
+                class="transport"
+                name="transport"
+                checked
+              />
+              Osobní odběr (bez příplatku)
+            </label>
+          </div>
+          <div>
+            <label for="courier">
+              <input
+                type="radio"
+                id="courier"
+                class="transport"
+                name="transport"
+              />
+              Firemní kurýr (+ 10 % z aktuální ceny)
+            </label>
+          </div>
+          <div>
+            <label for="post">
+              <input
+                type="radio"
+                id="post"
+                class="transport"
+                name="transport"
+              />
+              Česká počta (+ 250 Kč)
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="price2">Výsledná cena:</label>
+          <input type="number" id="price2" name="price2" />
+          <label for="amount">Částka k utracení:</label>
+          <input type="number" id="amount" name="amount" />
+          <input type="button" id="check" name="check" value="Zkontrolovat" />
+          <div id="report"></div>
+        </div>
+        <div class="form-group">
+          <label for="email">Jméno:</label>
+          <input type="text" id="name" name="name" />
+          @gmail.com
+        </div>
+        <div class="form-group">
+          <input type="button" id="submit" value="Odeslat" />
+        </div>
+        <div id="result"></div>
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

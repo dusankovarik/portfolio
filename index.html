@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth scroll-pt-16">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio – Dušan Kovářík, backend developer se zaměřením na návrh API a architekturu aplikací." />
+  <title>Dušan Kovářík – Portfolio</title>
+
+  <!-- =====================================================
+       DEPENDENCIES (CDN)
+       - Tailwind CSS Play CDN  (utility-first CSS)
+       - GLightbox               (image lightbox)
+       - Google Fonts: Inter     (typography)
+  ===================================================== -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Tailwind custom theme – extend colours and fonts here */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            /* Dark navy palette used throughout the page */
+            navy: {
+              950: '#060c18',
+              900: '#0a0f1e',
+              800: '#0d1525',
+              700: '#131e30',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- GLightbox CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* -------------------------------------------------------
+       GLOBAL OVERRIDES
+    ------------------------------------------------------- */
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar          { width: 6px; }
+    ::-webkit-scrollbar-track    { background: #0a0f1e; }
+    ::-webkit-scrollbar-thumb    { background: #06b6d4; border-radius: 3px; }
+
+    /* Navbar backdrop blur */
+    .navbar-blur {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* -------------------------------------------------------
+       SCROLL-REVEAL ANIMATION
+       Elements start invisible; JS adds .visible when they
+       enter the viewport, triggering the CSS transition.
+    ------------------------------------------------------- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children of a container */
+    .fade-in:nth-child(2)  { transition-delay: 0.07s; }
+    .fade-in:nth-child(3)  { transition-delay: 0.14s; }
+    .fade-in:nth-child(4)  { transition-delay: 0.21s; }
+    .fade-in:nth-child(5)  { transition-delay: 0.28s; }
+    .fade-in:nth-child(6)  { transition-delay: 0.35s; }
+
+    /* -------------------------------------------------------
+       PROJECT CARD IMAGE – subtle edge vignette (top/left/right)
+       Gentle darkening to soften the screenshot → dark border
+       transition. Bottom left open (natural fade into card body).
+       Hover zoom-overlay stays above via z-index: 1.
+    ------------------------------------------------------- */
+    .img-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow:
+        inset 0   6px 12px -4px rgba(0, 0, 0, 0.38),  /* top   */
+        inset  7px 0 12px -4px rgba(0, 0, 0, 0.18),   /* left  */
+        inset -7px 0 12px -4px rgba(0, 0, 0, 0.18);   /* right */
+      pointer-events: none;
+    }
+    /* Keep the hover zoom-overlay above the ::after shadow */
+    .img-frame > div { z-index: 1; }
+
+
+    /* -------------------------------------------------------
+       HERO BACKGROUND GRID (subtle tech decoration)
+    ------------------------------------------------------- */
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(6,182,212,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6,182,212,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+  </style>
+</head>
+
+<!-- =========================================================
+     PAGE BODY
+========================================================= -->
+<body class="bg-navy-900 text-gray-100 font-sans antialiased">
+
+
+  <!-- =======================================================
+       NAVBAR
+       Fixed top bar with logo, desktop links, and hamburger.
+       Links use smooth-scroll (handled by scroll-smooth on
+       <html>) and scroll-pt-16 prevents heading overlap.
+  ======================================================= -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 navbar-blur bg-navy-900/90 border-b border-slate-800 transition-shadow duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Brand / Logo -->
+        <a href="#about" class="text-cyan-400 font-bold text-lg tracking-widest hover:text-cyan-300 transition-colors">
+          DK
+        </a>
+
+        <!-- Desktop navigation links (hidden on mobile) -->
+        <ul class="hidden md:flex items-center gap-7 text-sm font-medium">
+          <li><a href="#about"     class="nav-link text-gray-300 hover:text-cyan-400 transition-colors border-b-2 border-transparent hover:border-cyan-400 pb-0.5">O mně</a></li>
+          <li><a href="#skills"    class="nav-link text-gray-300 hover:text-cyan-400 transition-colors border-b-2 border-transparent hover:border-cyan-400 pb-0.5">Dovednosti</a></li>
+          <li><a href="#projects"  class="nav-link text-gray-300 hover:text-cyan-400 transition-colors border-b-2 border-transparent hover:border-cyan-400 pb-0.5">Projekty</a></li>
+          <li><a href="#interests" class="nav-link text-gray-300 hover:text-cyan-400 transition-colors border-b-2 border-transparent hover:border-cyan-400 pb-0.5">Zájmy</a></li>
+          <li><a href="#contact"   class="nav-link text-gray-300 hover:text-cyan-400 transition-colors border-b-2 border-transparent hover:border-cyan-400 pb-0.5">Kontakt</a></li>
+        </ul>
+
+        <!-- Hamburger button (visible only on mobile) -->
+        <button id="menu-btn" aria-label="Otevřít menu" aria-expanded="false"
+                class="md:hidden flex flex-col justify-center gap-[5px] w-9 h-9 p-1.5 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500">
+          <span class="ham-line block w-full h-0.5 bg-gray-300 rounded transition-all duration-300 origin-center"></span>
+          <span class="ham-line block w-full h-0.5 bg-gray-300 rounded transition-all duration-300"></span>
+          <span class="ham-line block w-full h-0.5 bg-gray-300 rounded transition-all duration-300 origin-center"></span>
+        </button>
+
+      </div><!-- /flex row -->
+    </div><!-- /container -->
+
+    <!-- Mobile dropdown menu -->
+    <div id="mobile-menu" class="md:hidden hidden border-t border-slate-800 bg-navy-900/98">
+      <ul class="flex flex-col py-3 px-4 gap-0.5 text-sm font-medium">
+        <li><a href="#about"     class="mobile-link block py-3 px-4 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-800/60 transition-all">O mně</a></li>
+        <li><a href="#skills"    class="mobile-link block py-3 px-4 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-800/60 transition-all">Dovednosti</a></li>
+        <li><a href="#projects"  class="mobile-link block py-3 px-4 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-800/60 transition-all">Projekty</a></li>
+        <li><a href="#interests" class="mobile-link block py-3 px-4 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-800/60 transition-all">Zájmy</a></li>
+        <li><a href="#contact"   class="mobile-link block py-3 px-4 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-800/60 transition-all">Kontakt</a></li>
+      </ul>
+    </div><!-- /mobile-menu -->
+  </nav><!-- /navbar -->
+
+
+  <!-- =======================================================
+       SECTION 1 – HERO / O MNĚ
+       Full-viewport hero with profile photo, name, title,
+       description and two CTA buttons.
+       id="about" is used by the "O mně" navbar link.
+  ======================================================= -->
+  <section id="about" class="relative min-h-screen flex items-center pt-16 overflow-hidden hero-grid">
+
+    <!-- Decorative ambient glows -->
+    <div class="pointer-events-none absolute top-1/3 right-0 w-[32rem] h-[32rem] bg-cyan-500/5 rounded-full blur-3xl"></div>
+    <div class="pointer-events-none absolute bottom-1/4 left-0   w-60 h-60 bg-cyan-500/5 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 w-full">
+      <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+
+        <!-- ---- Profile photo ---- -->
+        <div class="flex-shrink-0">
+          <div class="relative">
+            <!-- Outer decorative ring -->
+            <div class="absolute -inset-3 rounded-full border border-cyan-500/20 animate-pulse"></div>
+            <!-- Photo frame -->
+            <div class="w-44 h-44 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-cyan-500/30 shadow-2xl shadow-cyan-500/10">
+              <img src="images/profile-photo.jpg"
+                   alt="Dušan Kovářík – profilová fotografie"
+                   class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- Text content ---- -->
+        <div class="text-center md:text-left max-w-2xl">
+          <p class="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-3">Portfolio</p>
+
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-3">
+            Dušan Kovářík
+          </h1>
+
+          <h2 class="text-base md:text-lg text-cyan-300 font-medium mb-5 leading-snug">
+            Backend developer se zaměřením na návrh API a architekturu aplikací
+          </h2>
+
+          <p class="text-gray-400 text-sm md:text-base leading-relaxed mb-8">
+            Vyvíjím backendové aplikace, převážně v prostředí .NET, a soustředím se na přehlednou strukturu,
+            oddělení vrstev a dlouhodobou udržitelnost kódu. Nevyhýbám se ani frontendu — baví mě přemýšlet
+            nad aplikací jako nad celkem. Aktuálně vyvíjím aplikaci s odděleným backendem a frontendem
+            postavenou na Web API a Reactu.
+          </p>
+
+          <!-- CTA buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <!-- Primary: Projects -->
+            <a href="#projects"
+               class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-navy-900 font-semibold rounded-lg shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30 transition-all duration-200 hover:-translate-y-0.5">
+              <!-- folder icon -->
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+              Moje projekty
+            </a>
+
+            <!-- Secondary: Contact -->
+            <a href="#contact"
+               class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-cyan-500/50 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 font-semibold rounded-lg transition-all duration-200 hover:-translate-y-0.5">
+              <!-- envelope icon -->
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              Kontakt
+            </a>
+          </div>
+        </div><!-- /text -->
+
+      </div><!-- /flex row -->
+
+      <!-- Scroll-down cue -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-1 text-gray-600 animate-bounce">
+        <span class="text-[10px] tracking-widest uppercase">Více</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </div>
+
+    </div><!-- /container -->
+  </section><!-- /hero -->
+
+
+  <!-- =======================================================
+       SECTION 2 – DOVEDNOSTI (Skills)
+       Technology icons grouped by category.
+
+       HOW TO ADD A NEW SKILL:
+       Copy one of the <div class="skill-card ..."> blocks,
+       paste it inside the appropriate category grid,
+       then update the <img src>, alt, and label text.
+  ======================================================= -->
+  <section id="skills" class="py-24 bg-navy-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+      <!-- Section heading -->
+      <div class="text-center mb-16 fade-in">
+        <p class="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Co umím</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Dovednosti</h2>
+        <div class="mt-3 mx-auto w-14 h-0.5 bg-cyan-500 rounded-full"></div>
+      </div>
+
+      <!-- ---- Backend ---- -->
+      <div class="mb-12">
+        <h3 class="text-sm font-semibold text-cyan-300 tracking-widest uppercase mb-5 fade-in flex items-center gap-3">
+          <span class="w-6 h-px bg-cyan-500/60"></span>Backend
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+
+          <!-- ===== SKILL CARD – duplicate to add a skill ===== -->
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+                 alt="C#" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">C#</span>
+          </div>
+          <!-- ===== END SKILL CARD ===== -->
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                 alt="Java" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">Java</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                 alt="PHP" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">PHP</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                 alt="Python" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">Python</span>
+          </div>
+
+        </div>
+      </div><!-- /backend -->
+
+      <!-- ---- Frontend ---- -->
+      <div class="mb-12">
+        <h3 class="text-sm font-semibold text-cyan-300 tracking-widest uppercase mb-5 fade-in flex items-center gap-3">
+          <span class="w-6 h-px bg-cyan-500/60"></span>Frontend
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                 alt="HTML5" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">HTML5</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                 alt="CSS3" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">CSS3</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                 alt="JavaScript" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">JavaScript</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
+                 alt="Bootstrap" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">Bootstrap</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                 alt="React" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">React</span>
+          </div>
+
+        </div>
+      </div><!-- /frontend -->
+
+      <!-- ---- Databáze ---- -->
+      <div class="mb-12">
+        <h3 class="text-sm font-semibold text-cyan-300 tracking-widest uppercase mb-5 fade-in flex items-center gap-3">
+          <span class="w-6 h-px bg-cyan-500/60"></span>Databáze
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+
+          <!-- Custom image from /images -->
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="images/microsoft-access.png"
+                 alt="Microsoft Access" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-200" style="filter: brightness(0) invert(1)" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">Access</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg"
+                 alt="Oracle" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">Oracle</span>
+          </div>
+
+          <!-- Custom image from /images -->
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="images/postgresql.png"
+                 alt="PostgreSQL" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-200" style="filter: brightness(0) invert(1)" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">PostgreSQL</span>
+          </div>
+
+        </div>
+      </div><!-- /databases -->
+
+      <!-- ---- OS Management ---- -->
+      <div>
+        <h3 class="text-sm font-semibold text-cyan-300 tracking-widest uppercase mb-5 fade-in flex items-center gap-3">
+          <span class="w-6 h-px bg-cyan-500/60"></span>OS Management – základy
+        </h3>
+        <div class="grid grid-cols-2 gap-4 max-w-xs sm:max-w-sm">
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg"
+                 alt="Windows Server" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors text-center leading-snug">Windows Server</span>
+          </div>
+
+          <div class="skill-card fade-in flex flex-col items-center gap-3 p-5 rounded-xl bg-navy-700/60 border border-slate-700/50 hover:border-cyan-500/40 hover:bg-navy-700 transition-all duration-200 group cursor-default">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg"
+                 alt="Linux" class="w-12 h-12 group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+            <span class="text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">Linux</span>
+          </div>
+
+        </div>
+      </div><!-- /os -->
+
+    </div><!-- /container -->
+  </section><!-- /skills -->
+
+
+  <!-- =======================================================
+       SECTION 3 – PROJEKTY (Projects)
+       Responsive card grid. Each card has a GLightbox image,
+       project name, description, and action buttons.
+
+       HOW TO ADD A NEW PROJECT:
+       1. Copy the entire article.project-card block below.
+       2. Paste it inside the grid div.
+       3. Update: image src + data-title, h3 name, p description,
+          "Navštívit" href, "GitHub" href.
+       4. If there is no GitHub link, remove the GitHub button.
+  ======================================================= -->
+  <section id="projects" class="py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+      <!-- Section heading -->
+      <div class="text-center mb-16 fade-in">
+        <p class="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Co jsem postavil</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Projekty</h2>
+        <div class="mt-3 mx-auto w-14 h-0.5 bg-cyan-500 rounded-full"></div>
+      </div>
+
+      <!-- 3-col desktop / 2-col tablet / 1-col mobile -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- ===== Project card ===== -->
+        <article class="project-card fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-1">
+
+          <!-- Thumbnail → opens GLightbox -->
+          <a href="images/booklog.jpg"
+             class="glightbox img-frame relative block overflow-hidden"
+             data-gallery="projects"
+             data-title="BookLog">
+            <img src="images/booklog.jpg" alt="BookLog"
+                 class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            <!-- Hover overlay with zoom icon -->
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/55 to-transparent
+                        opacity-0 hover:opacity-90 transition-opacity
+                        flex items-center justify-center">
+              <svg class="w-9 h-9 text-cyan-300 drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card body -->
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">BookLog</h3>
+            <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+              Aplikace pro evidenci knih, autorů, literárních žánrů a knižních recenzí v ASP.NET Core MVC.
+            </p>
+            <!-- Action buttons -->
+            <div class="flex gap-3 mt-auto">
+              <a href="https://booklog.runasp.net/" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                        hover:bg-cyan-500 hover:border-cyan-500 hover:text-navy-900">
+                Navštívit
+              </a>
+              <a href="https://github.com/dusankovarik/booklog" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-slate-700/50 border border-slate-600/50 text-gray-400
+                        hover:bg-slate-700 hover:text-white">
+                <!-- GitHub icon -->
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+        <!-- ===== /Project card ===== -->
+
+
+        <!-- ===== Project card ===== -->
+        <article class="project-card fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-1">
+          <a href="images/mvcschool.jpg"
+             class="glightbox img-frame relative block overflow-hidden"
+             data-gallery="projects"
+             data-title="SchoolApp C#">
+            <img src="images/mvcschool.jpg" alt="SchoolApp C#"
+                 class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/55 to-transparent
+                        opacity-0 hover:opacity-90 transition-opacity
+                        flex items-center justify-center">
+              <svg class="w-9 h-9 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+              </svg>
+            </div>
+          </a>
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">SchoolApp C#</h3>
+            <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+              Školní informační systém pro evidenci předmětů, studentů a známek v ASP.NET Core MVC.
+            </p>
+            <div class="flex gap-3 mt-auto">
+              <a href="https://mvcschool.azurewebsites.net/" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                        hover:bg-cyan-500 hover:border-cyan-500 hover:text-navy-900">
+                Navštívit
+              </a>
+              <a href="https://github.com/dusankovarik/mvcschool" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-slate-700/50 border border-slate-600/50 text-gray-400
+                        hover:bg-slate-700 hover:text-white">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+        <!-- ===== /Project card ===== -->
+
+
+        <!-- ===== Project card ===== -->
+        <article class="project-card fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-1">
+          <a href="images/school-java.jpg"
+             class="glightbox img-frame relative block overflow-hidden"
+             data-gallery="projects"
+             data-title="SchoolApp Java">
+            <img src="images/school-java.jpg" alt="SchoolApp Java"
+                 class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/55 to-transparent
+                        opacity-0 hover:opacity-90 transition-opacity
+                        flex items-center justify-center">
+              <svg class="w-9 h-9 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+              </svg>
+            </div>
+          </a>
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">SchoolApp Java</h3>
+            <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+              Školní informační systém pro evidenci předmětů, studentů a známek – Java, Spring.
+            </p>
+            <div class="flex gap-3 mt-auto">
+              <a href="https://schoolapp1225dk.azurewebsites.net" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                        hover:bg-cyan-500 hover:border-cyan-500 hover:text-navy-900">
+                Navštívit
+              </a>
+              <a href="https://github.com/dusankovarik/schoolapp-api" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-slate-700/50 border border-slate-600/50 text-gray-400
+                        hover:bg-slate-700 hover:text-white">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+        <!-- ===== /Project card ===== -->
+
+
+        <!-- ===== Project card ===== -->
+        <article class="project-card fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-1">
+          <a href="images/weather-api.jpg"
+             class="glightbox img-frame relative block overflow-hidden"
+             data-gallery="projects"
+             data-title="WeatherApp">
+            <img src="images/weather-api.jpg" alt="WeatherApp"
+                 class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/55 to-transparent
+                        opacity-0 hover:opacity-90 transition-opacity
+                        flex items-center justify-center">
+              <svg class="w-9 h-9 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+              </svg>
+            </div>
+          </a>
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">WeatherApp</h3>
+            <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+              API pro aktuální informace o počasí v Javě.
+            </p>
+            <div class="flex gap-3 mt-auto">
+              <a href="https://weatherapiappdk.azurewebsites.net" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                        hover:bg-cyan-500 hover:border-cyan-500 hover:text-navy-900">
+                Navštívit
+              </a>
+              <a href="https://github.com/dusankovarik/weatherapp" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-slate-700/50 border border-slate-600/50 text-gray-400
+                        hover:bg-slate-700 hover:text-white">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+        <!-- ===== /Project card ===== -->
+
+
+        <!-- ===== Project card (no GitHub link) ===== -->
+        <article class="project-card fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-1">
+          <a href="images/web-fiktivni-firmy.jpg"
+             class="glightbox img-frame relative block overflow-hidden"
+             data-gallery="projects"
+             data-title="Web fiktivní firmy">
+            <img src="images/web-fiktivni-firmy.jpg" alt="Web fiktivní firmy"
+                 class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/55 to-transparent
+                        opacity-0 hover:opacity-90 transition-opacity
+                        flex items-center justify-center">
+              <svg class="w-9 h-9 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+              </svg>
+            </div>
+          </a>
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">Web fiktivní firmy</h3>
+            <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+              Samostatný projekt s časovým limitem 6,5 hodiny.
+            </p>
+            <div class="flex gap-3 mt-auto">
+              <!-- Single full-width button when there is no GitHub link -->
+              <a href="projects/html-css-bs/index.html" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                        hover:bg-cyan-500 hover:border-cyan-500 hover:text-navy-900">
+                Navštívit
+              </a>
+            </div>
+          </div>
+        </article>
+        <!-- ===== /Project card ===== -->
+
+
+        <!-- ===== Project card ===== -->
+        <article class="project-card fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-1">
+          <a href="images/js-formular.jpg"
+             class="glightbox img-frame relative block overflow-hidden"
+             data-gallery="projects"
+             data-title="Formulář v JavaScriptu">
+            <img src="images/js-formular.jpg" alt="Formulář v JavaScriptu"
+                 class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/55 to-transparent
+                        opacity-0 hover:opacity-90 transition-opacity
+                        flex items-center justify-center">
+              <svg class="w-9 h-9 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
+              </svg>
+            </div>
+          </a>
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-base font-semibold text-white mb-2">Formulář v JavaScriptu</h3>
+            <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-4">
+              Samostatný projekt s časovým limitem 4,5 hodiny.
+            </p>
+            <div class="flex gap-3 mt-auto">
+              <a href="projects/js-formular/index.html" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 text-center py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                        hover:bg-cyan-500 hover:border-cyan-500 hover:text-navy-900">
+                Navštívit
+              </a>
+              <a href="https://github.com/dusankovarik/formular_v_js" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 text-sm font-medium rounded-lg transition-all duration-200
+                        bg-slate-700/50 border border-slate-600/50 text-gray-400
+                        hover:bg-slate-700 hover:text-white">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+        <!-- ===== /Project card ===== -->
+
+
+      </div><!-- /grid -->
+    </div><!-- /container -->
+  </section><!-- /projects -->
+
+
+  <!-- =======================================================
+       SECTION 4 – ZÁJMY (Interests)
+       Udemy courses and YouTube channel.
+
+       HOW TO ADD A NEW UDEMY COURSE:
+       Copy one interest-card block, paste it in the grid,
+       update the image paths, data-title, and course title.
+  ======================================================= -->
+  <section id="interests" class="py-24 bg-navy-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+      <!-- Section heading -->
+      <div class="text-center mb-16 fade-in">
+        <p class="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Mimo kód</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Zájmy</h2>
+        <div class="mt-3 mx-auto w-14 h-0.5 bg-cyan-500 rounded-full"></div>
+      </div>
+
+      <!-- ---- Udemy courses ---- -->
+      <div class="mb-14">
+        <div class="mb-6 fade-in">
+          <h3 class="text-xl font-semibold text-white mb-1">Udemy kurzy</h3>
+          <p class="text-gray-400 text-sm">Dokončené online kurzy – neustálé rozšiřování znalostí a dovedností.</p>
+        </div>
+
+        <!-- Same responsive grid as projects -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+          <!-- ===== Interest card – duplicate to add a course ===== -->
+          <article class="fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden
+                          hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5
+                          transition-all duration-300 hover:-translate-y-1">
+            <a href="images/udemy-course-c-sharp.jpg"
+               class="glightbox img-frame relative block overflow-hidden"
+               data-gallery="interests"
+               data-title="Udemy – C# kurz">
+              <img src="images/udemy-course-c-sharp.jpg" alt="Udemy C# kurz"
+                   class="w-full h-40 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            </a>
+            <div class="p-4">
+              <p class="text-[10px] text-cyan-400 font-semibold tracking-[0.15em] uppercase mb-1">Udemy</p>
+              <h4 class="text-sm font-medium text-white">C# – kompletní kurz</h4>
+            </div>
+          </article>
+          <!-- ===== /Interest card ===== -->
+
+          <!-- ===== Interest card ===== -->
+          <article class="fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden
+                          hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5
+                          transition-all duration-300 hover:-translate-y-1">
+            <a href="images/udemy-course-python.jpg"
+               class="glightbox img-frame relative block overflow-hidden"
+               data-gallery="interests"
+               data-title="Udemy – Python kurz">
+              <img src="images/udemy-course-python.jpg" alt="Udemy Python kurz"
+                   class="w-full h-40 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            </a>
+            <div class="p-4">
+              <p class="text-[10px] text-cyan-400 font-semibold tracking-[0.15em] uppercase mb-1">Udemy</p>
+              <h4 class="text-sm font-medium text-white">Python – kompletní kurz</h4>
+            </div>
+          </article>
+
+          <!-- ===== Interest card ===== -->
+          <article class="fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden
+                          hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5
+                          transition-all duration-300 hover:-translate-y-1">
+            <a href="images/udemy-course-data-analysis.jpg"
+               class="glightbox img-frame relative block overflow-hidden"
+               data-gallery="interests"
+               data-title="Udemy – Data Analysis kurz">
+              <img src="images/udemy-course-data-analysis.jpg" alt="Udemy Data Analysis kurz"
+                   class="w-full h-40 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            </a>
+            <div class="p-4">
+              <p class="text-[10px] text-cyan-400 font-semibold tracking-[0.15em] uppercase mb-1">Udemy</p>
+              <h4 class="text-sm font-medium text-white">Data Analysis</h4>
+            </div>
+          </article>
+
+          <!-- ===== Interest card ===== -->
+          <article class="fade-in flex flex-col bg-navy-800/70 border border-slate-700/50 rounded-xl overflow-hidden
+                          hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5
+                          transition-all duration-300 hover:-translate-y-1">
+            <a href="images/udemy-course-html-css.jpg"
+               class="glightbox img-frame relative block overflow-hidden"
+               data-gallery="interests"
+               data-title="Udemy – HTML &amp; CSS kurz">
+              <img src="images/udemy-course-html-css.jpg" alt="Udemy HTML & CSS kurz"
+                   class="w-full h-40 object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            </a>
+            <div class="p-4">
+              <p class="text-[10px] text-cyan-400 font-semibold tracking-[0.15em] uppercase mb-1">Udemy</p>
+              <h4 class="text-sm font-medium text-white">HTML &amp; CSS</h4>
+            </div>
+          </article>
+
+        </div>
+      </div><!-- /udemy -->
+
+      <!-- ---- YouTube ---- -->
+      <div class="fade-in">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-6 rounded-xl
+                    bg-navy-800/70 border border-slate-700/50 hover:border-red-500/20 transition-colors duration-300">
+
+          <!-- YouTube icon -->
+          <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-red-600/10 border border-red-600/20
+                      flex items-center justify-center">
+            <svg class="w-7 h-7 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </div>
+
+          <div class="flex-1">
+            <h3 class="text-white font-semibold text-lg mb-1">YouTube – matematika</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Natočil jsem přibližně <span class="text-cyan-300 font-semibold">130 videí</span> věnovaných matematice —
+              od základů po pokročilejší témata. Snažím se matematiku zpřístupnit srozumitelně a prakticky.
+            </p>
+            <a href="https://www.youtube.com/@dusankovarik651" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 font-medium transition-colors group">
+              Navštívit kanál
+              <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div><!-- /youtube -->
+
+    </div><!-- /container -->
+  </section><!-- /interests -->
+
+
+  <!-- =======================================================
+       SECTION 5 – KONTAKT (Contact)
+       Formspree-powered contact form with AJAX submission.
+
+       SETUP:
+       1. Register at https://formspree.io
+       2. Create a new form and copy the endpoint URL.
+       3. Replace YOUR_FORMSPREE_ENDPOINT in the <form> tag.
+          Example: action="https://formspree.io/f/xabc1234"
+  ======================================================= -->
+  <section id="contact" class="py-24">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+
+      <!-- Section heading -->
+      <div class="text-center mb-12 fade-in">
+        <p class="text-cyan-400 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Napište mi</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Kontakt</h2>
+        <div class="mt-3 mx-auto w-14 h-0.5 bg-cyan-500 rounded-full"></div>
+        <p class="mt-5 text-gray-400 text-sm">
+          Máte projekt nebo otázku? Neváhejte se ozvat.
+        </p>
+      </div>
+
+      <!-- Contact form -->
+      <form id="contact-form"
+            action="https://formspree.io/f/maqdlqdq"
+            method="POST"
+            class="fade-in space-y-5">
+
+        <!-- Row: Jméno + E-mail -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-300 mb-1.5">Jméno</label>
+            <input type="text" id="name" name="name"
+                   placeholder="Vaše jméno"
+                   class="w-full px-4 py-3 rounded-lg text-sm text-white placeholder-gray-600
+                          bg-navy-800/80 border border-slate-700
+                          focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20
+                          outline-none transition-all duration-200" />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-300 mb-1.5">
+              E-mail <span class="text-cyan-400 text-xs">*</span>
+            </label>
+            <input type="email" id="email" name="email"
+                   placeholder="vas@email.cz"
+                   required
+                   class="w-full px-4 py-3 rounded-lg text-sm text-white placeholder-gray-600
+                          bg-navy-800/80 border border-slate-700
+                          focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20
+                          outline-none transition-all duration-200" />
+          </div>
+        </div>
+
+        <!-- Předmět -->
+        <div>
+          <label for="subject" class="block text-sm font-medium text-gray-300 mb-1.5">Předmět</label>
+          <input type="text" id="subject" name="subject"
+                 placeholder="O čem píšete?"
+                 class="w-full px-4 py-3 rounded-lg text-sm text-white placeholder-gray-600
+                        bg-navy-800/80 border border-slate-700
+                        focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20
+                        outline-none transition-all duration-200" />
+        </div>
+
+        <!-- Zpráva -->
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-300 mb-1.5">
+            Zpráva <span class="text-cyan-400 text-xs">*</span>
+          </label>
+          <textarea id="message" name="message"
+                    rows="5"
+                    placeholder="Vaše zpráva…"
+                    required
+                    class="w-full px-4 py-3 rounded-lg text-sm text-white placeholder-gray-600
+                           bg-navy-800/80 border border-slate-700
+                           focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20
+                           outline-none transition-all duration-200 resize-none"></textarea>
+        </div>
+
+        <!-- Submit + feedback messages -->
+        <div>
+          <button type="submit" id="submit-btn"
+                  class="inline-flex items-center gap-2 px-8 py-3 rounded-lg font-semibold text-sm
+                         bg-cyan-500 hover:bg-cyan-400 text-navy-900
+                         shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30
+                         transition-all duration-200 hover:-translate-y-0.5
+                         disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0">
+            <!-- Send icon -->
+            <svg id="btn-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+            <span id="btn-text">Odeslat</span>
+          </button>
+
+          <!-- Success message -->
+          <p id="form-success" class="hidden mt-4 text-sm text-green-400 flex items-center gap-2">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Zpráva byla odeslána. Brzy se ozvu!
+          </p>
+
+          <!-- Error message -->
+          <p id="form-error" class="hidden mt-4 text-sm text-red-400 flex items-center gap-2">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span id="form-error-text">Něco se pokazilo. Zkuste to prosím znovu.</span>
+          </p>
+        </div>
+
+      </form><!-- /contact-form -->
+    </div><!-- /container -->
+  </section><!-- /contact -->
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================= -->
+  <footer class="border-t border-slate-800/80 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6
+                flex flex-col sm:flex-row items-center justify-between gap-3
+                text-xs text-gray-600">
+      <p>&copy; <span id="footer-year"></span> Dušan Kovářík. Všechna práva vyhrazena.</p>
+      <p>Vytvořeno s HTML5, Tailwind CSS &amp; vanilla JS</p>
+    </div>
+  </footer>
+
+
+  <!-- =======================================================
+       SCRIPTS
+  ======================================================= -->
+
+  <!-- GLightbox -->
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+  <script>
+    'use strict';
+
+    /* -------------------------------------------------------
+       1. GLightbox – image lightbox for project & interest images
+    ------------------------------------------------------- */
+    GLightbox({ selector: '.glightbox', touchNavigation: true, loop: false });
+
+
+    /* -------------------------------------------------------
+       2. Hamburger / mobile menu toggle
+    ------------------------------------------------------- */
+    const menuBtn    = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamLines   = document.querySelectorAll('.ham-line');
+
+    function openMenu() {
+      mobileMenu.classList.remove('hidden');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      // Animate to X
+      hamLines[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+      hamLines[1].style.opacity   = '0';
+      hamLines[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.add('hidden');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      // Reset to hamburger
+      hamLines[0].style.transform = '';
+      hamLines[1].style.opacity   = '';
+      hamLines[2].style.transform = '';
+    }
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.contains('hidden') ? openMenu() : closeMenu();
+    });
+
+    // Close when any mobile link is tapped
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close when clicking outside the navbar
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.classList.contains('hidden') &&
+          !menuBtn.contains(e.target) &&
+          !mobileMenu.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+
+    /* -------------------------------------------------------
+       3. Scroll-reveal animation (IntersectionObserver)
+          Adds .visible to .fade-in elements as they enter view.
+    ------------------------------------------------------- */
+    const fadeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target); // animate once only
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+
+    /* -------------------------------------------------------
+       4. Active nav link highlight on scroll
+          Watches each section and marks the matching nav link.
+    ------------------------------------------------------- */
+    const sections  = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-link');
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.id;
+          navLinks.forEach((link) => {
+            const active = link.getAttribute('href') === `#${id}`;
+            link.classList.toggle('text-cyan-400',    active);
+            link.classList.toggle('border-cyan-400',  active);
+            link.classList.toggle('text-gray-300',   !active);
+            link.classList.toggle('border-transparent', !active);
+          });
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    );
+    sections.forEach(s => sectionObserver.observe(s));
+
+
+    /* -------------------------------------------------------
+       5. Contact form – async Formspree submission
+    ------------------------------------------------------- */
+    const form       = document.getElementById('contact-form');
+    const submitBtn  = document.getElementById('submit-btn');
+    const btnText    = document.getElementById('btn-text');
+    const successMsg = document.getElementById('form-success');
+    const errorMsg   = document.getElementById('form-error');
+    const errorText  = document.getElementById('form-error-text');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Guard: remind developer to configure Formspree
+      if (!form.action.includes('formspree.io')) {
+        errorText.textContent = 'Formulář není nakonfigurován – prosím nastavte Formspree endpoint.';
+        errorMsg.classList.remove('hidden');
+        successMsg.classList.add('hidden');
+        return;
+      }
+
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      btnText.textContent = 'Odesílám…';
+      successMsg.classList.add('hidden');
+      errorMsg.classList.add('hidden');
+
+      try {
+        const res = await fetch(form.action, {
+          method:  'POST',
+          body:    new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (res.ok) {
+          successMsg.classList.remove('hidden');
+          form.reset();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          errorText.textContent =
+            (data.errors && data.errors.map(err => err.message).join(', ')) ||
+            'Něco se pokazilo. Zkuste to prosím znovu.';
+          errorMsg.classList.remove('hidden');
+        }
+      } catch {
+        errorText.textContent = 'Síťová chyba. Zkontrolujte připojení a zkuste znovu.';
+        errorMsg.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        btnText.textContent = 'Odeslat';
+      }
+    });
+
+
+    /* -------------------------------------------------------
+       6. Footer year – auto-updates each year
+    ------------------------------------------------------- */
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  </script>
+
+</body>
+</html>
